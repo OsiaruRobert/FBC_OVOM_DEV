@@ -4,7 +4,10 @@ import aiController from "./aiController.js";
 const app = express();
 app.use(express.json());
 
-app.post("/chat", aiController);
+app.use(express.static('public'));   // serve files from the "public" folder
+
+app.post("/api/chat", aiController);
+app.post("/api/test", (req,res)=>res.json({"reply":req.body.question}));
 
 app.use((req, res) => res.status(404).json({ error: "Endpoint not found" }));
 

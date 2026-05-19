@@ -2,53 +2,60 @@
 // This will only work for SDK newer than 2.0.0
 import { GoogleGenAI } from "@google/genai";
 
+
+const keys = [
+    process.env.KEY1,
+    process.env.KEY2,
+    process.env.KEY3,
+    process.env.KEY4,
+    process.env.KEY5,
+    process.env.KEY6,
+    process.env.KEY7,
+    process.env.KEY8,
+    process.env.KEY9,
+    process.env.KEY10
+];
+
+let currentKeyIndex = 0;
+
 const ai = new GoogleGenAI({
-    apiKey: process.env.KEY, // Ensure you have GEMINI_API_KEY set in your .env file
+    apiKey: keys[currentKeyIndex], // Ensure you have GEMINI_API_KEY set in your .env file
 });
 
-
-
 async function responder(message) {
-    const chat = await ai.interactions.create({
-        model: "gemini-3-flash-preview",
-        input: message,
-        stream: true,
-        system_instruction: "You are a christian AI chart bot. Your name is Silas. Members of the church asked you questons consigning marriage guidelines and you prove answers from  vector store .",
+
+    const response = await ai.models.generateContent({
+    //    model: "gemini-2.5-flash",
+    model: "gemini-3-flash-preview",
+        contents: message,
+        store: false,
+        config: {
+            tools: [{
+                fileSearch: { fileSearchStoreNames: [process.env.FBC_STORE] }
+            }]
+        }
     });
 
-    let reply = "";
-
-    for await (const event of chat) {
-        if (event.event_type === "step.delta") {
-            if (event.delta.type === "text") {
-                process.stdout.write(event.delta.text);
-                reply += event.delta.text;
-            }
-        }
-    }
+    return response.text;
 
 }
 
 
 async function controller(req, res) {
+    try {
+        let { message } = req.body;
+        console.log(message)
+        const reply = await responder(message)
 
-    async (req, res) => {
-        try {
-            let { message } = req.body;
-
-/*
-[
-    {
-            "role":"user",
-            "content":"dfsfs"
-    }
-]
-*/           const reply = await responder(message)
-
-            res.status(200).json({ "reply": reply })
-        } catch (error) {
-            console.error("Error in /chat endpoint:", error);
-            res.status(500).json({ error: "An error occurred while processing your request." });
+        res.status(200).json({ "reply": reply })
+    } catch (error) {
+        console.error("Error in /chat endpoint:", error);
+        if(error.status === 429 ) {
+            currentKeyIndex = (currentKeyIndex + 1) % keys.length;
+            console.log(`Switching to next API key: ${keys[currentKeyIndex]}`);
+            return controller(req, res); // Retry with the next key
         }
+        res.status(500).json({ error: "Please try again later." });
     }
 }
+export default controller;

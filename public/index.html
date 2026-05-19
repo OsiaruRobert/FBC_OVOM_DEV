@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GraceBot – Church Assistant</title>
+  <title>FBC OVOM – Marriage Guidelines</title>
 
-  <!-- Fonts: elegant serif for headings + clean sans for chat -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
 
   <style>
     *,
@@ -22,150 +21,179 @@
       padding: 0;
     }
 
+    /* Light theme (default) */
     :root {
-      /* Spiritual, warm palette */
-      --bg: #fdfbf7;               /* soft cream */
-      --surface: #fffef9;          /* slightly warmer white */
-      --surface-alt: #f7f3ea;      /* very light sand */
-      --border: #e0d6c2;           /* soft tan */
+      --bg: #fdfbf7;
+      --surface: #fffef9;
+      --surface-alt: #f7f3ea;
+      --border: #e0d6c2;
       --gold: #c9a44b;
       --gold-dark: #b28b3c;
-      --text-primary: #3b2e1e;     /* deep brown */
-      --text-secondary: #7b6e5d;   /* muted taupe */
-      --accent: #8b6f4c;           /* warm bronze */
+      --text-primary: #3b2e1e;
+      --text-secondary: #7b6e5d;
+      --accent: #8b6f4c;
       --send-bg: var(--gold);
       --send-hover: var(--gold-dark);
-      --you-bg: #e7d7b8;           /* light gold for user bubbles */
-      --ai-bg: #f9f6f0;            /* slightly off-white for AI */
+      --you-bg: #e7d7b8;
+      --ai-bg: #f9f6f0;
       --ai-border: #dacba4;
-      --radius-msg: 20px;
-      --radius-sm: 10px;
+      --header-bg: linear-gradient(135deg, #fcf9f2, #f8f2e4);
+      --shadow: 0 2px 8px rgba(201, 164, 75, 0.3);
     }
 
-    html, body {
-      height: 100%;
-      font-family: 'Inter', sans-serif;
+    /* Dark theme */
+    [data-theme="dark"] {
+      --bg: #1a1814;
+      --surface: #24211b;
+      --surface-alt: #2e2a22;
+      --border: #3d372c;
+      --gold: #d4af5e;
+      --gold-dark: #c19a4a;
+      --text-primary: #e6dccf;
+      --text-secondary: #a89e8b;
+      --accent: #c9a44b;
+      --send-bg: var(--gold);
+      --send-hover: var(--gold-dark);
+      --you-bg: #3a3326;
+      --ai-bg: #2b2720;
+      --ai-border: #4a4234;
+      --header-bg: linear-gradient(135deg, #2b2720, #221f18);
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
     body {
+      font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text-primary);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 16px;
-      background-image: radial-gradient(circle at 20% 30%, rgba(201, 164, 75, 0.06) 0%, transparent 40%),
-                        radial-gradient(circle at 80% 70%, rgba(139, 111, 76, 0.05) 0%, transparent 50%);
-    }
-
-    /* ── Outer shell ── */
-    .chat-shell {
-      width: 100%;
-      max-width: 580px;
-      height: min(700px, 92vh);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 32px;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
-      box-shadow:
-        0 0 0 1px rgba(201, 164, 75, 0.12),
-        0 20px 50px rgba(59, 46, 30, 0.15);
     }
 
-    /* ── Header ── */
-    .chat-header {
+    .top-header {
+      height: 64px;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 20px 22px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(135deg, #fcf9f2 0%, #f8f2e4 100%);
+      justify-content: space-between;
+      padding: 0 24px;
       flex-shrink: 0;
+      gap: 16px;
     }
 
-    .avatar {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cross-icon {
+      width: 36px;
+      height: 36px;
       background: radial-gradient(circle at 30% 30%, #f7e3af, var(--gold-dark));
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: var(--shadow);
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(201, 164, 75, 0.3);
     }
 
-    /* Simple cross icon */
-    .avatar svg {
-      width: 24px;
-      height: 24px;
+    .cross-icon svg {
+      width: 20px;
+      height: 20px;
       fill: #fff;
-      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
     }
 
-    .header-info h2 {
+    .header-text h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: #3b2e1e;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
       letter-spacing: 0.3px;
+      line-height: 1.2;
     }
 
-    .header-info span {
-      font-size: 0.8rem;
-      color: #6f8c5d; /* gentle olive-green for "online" */
+    .header-text span {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      display: block;
+      font-style: italic;
+    }
+
+    /* Theme toggle button */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 40px;
+      height: 40px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      margin-top: 2px;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: background 0.2s, color 0.2s;
     }
 
-    .online-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #6f8c5d;
-      animation: pulse 2s infinite;
+    .theme-toggle:hover {
+      background: var(--surface-alt);
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
-    /* ── Messages area ── */
-    #messages {
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      min-width: 0;
+      min-height: 0;
+      /* crucial for scrolling */
+    }
+
+    .messages {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 16px;
+      padding: 24px 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       scroll-behavior: smooth;
-      background: var(--surface);
+      min-height: 0;
+      /* crucial for scrolling */
     }
 
-    #messages::-webkit-scrollbar {
+    .messages::-webkit-scrollbar {
       width: 5px;
     }
-    #messages::-webkit-scrollbar-track {
+
+    .messages::-webkit-scrollbar-track {
       background: transparent;
     }
-    #messages::-webkit-scrollbar-thumb {
+
+    .messages::-webkit-scrollbar-thumb {
       background: var(--border);
       border-radius: 8px;
     }
 
-    /* date divider */
     .date-divider {
       display: flex;
       align-items: center;
       gap: 12px;
       margin: 8px 0;
     }
+
     .date-divider::before,
     .date-divider::after {
       content: '';
@@ -173,6 +201,7 @@
       height: 1px;
       background: var(--border);
     }
+
     .date-divider span {
       font-size: 0.7rem;
       color: var(--text-secondary);
@@ -181,17 +210,23 @@
       font-weight: 500;
     }
 
-    /* ── Message rows ── */
     .message-row {
       display: flex;
       flex-direction: column;
-      max-width: 82%;
+      max-width: 75%;
       animation: fadeUp 0.3s ease;
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .message-row.you {
@@ -204,8 +239,7 @@
       align-items: flex-start;
     }
 
-    /* sender label */
-    .message-row .sender-label {
+    .sender-label {
       font-size: 0.7rem;
       font-weight: 500;
       color: var(--text-secondary);
@@ -218,32 +252,51 @@
       color: var(--accent);
     }
 
-    /* bubble */
     .bubble {
       padding: 10px 15px;
-      border-radius: var(--radius-msg);
+      border-radius: 20px;
       font-size: 0.95rem;
       line-height: 1.55;
-      position: relative;
       word-break: break-word;
-      font-family: 'Inter', sans-serif;
+    }
+
+    /* Styled content inside AI bubble */
+    .bubble p {
+      margin-bottom: 0.5rem;
+    }
+
+    .bubble ul,
+    .bubble ol {
+      margin: 0.5rem 0 0.5rem 1.2rem;
+    }
+
+    .bubble li {
+      margin-bottom: 0.2rem;
+    }
+
+    .bubble strong {
+      font-weight: 600;
+    }
+
+    .bubble em {
+      font-style: italic;
+      color: var(--accent);
     }
 
     .message-row.you .bubble {
       background: var(--you-bg);
-      color: #2e2416;
-      border-bottom-right-radius: var(--radius-sm);
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      color: var(--text-primary);
+      border-bottom-right-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     }
 
     .message-row.ai .bubble {
       background: var(--ai-bg);
       color: var(--text-primary);
       border: 1px solid var(--ai-border);
-      border-bottom-left-radius: var(--radius-sm);
+      border-bottom-left-radius: 10px;
     }
 
-    /* timestamp */
     .timestamp {
       font-size: 0.65rem;
       color: var(--text-secondary);
@@ -251,7 +304,6 @@
       padding: 0 4px;
     }
 
-    /* ── Typing indicator ── */
     .typing-indicator {
       display: flex;
       align-items: center;
@@ -259,8 +311,8 @@
       padding: 8px 14px;
       background: var(--ai-bg);
       border: 1px solid var(--ai-border);
-      border-radius: var(--radius-msg);
-      border-bottom-left-radius: var(--radius-sm);
+      border-radius: 20px;
+      border-bottom-left-radius: 10px;
       width: fit-content;
       margin-top: 4px;
     }
@@ -273,23 +325,34 @@
       animation: bounce 1.2s infinite ease-in-out;
     }
 
-    .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
-
-    @keyframes bounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-7px); }
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.15s;
     }
 
-    /* ── Input area ── */
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-7px);
+      }
+    }
+
     .chat-footer {
-      padding: 14px 16px;
+      padding: 16px 20px;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 10px;
       background: var(--surface);
-      flex-shrink: 0;
     }
 
     .input-wrap {
@@ -358,203 +421,267 @@
       pointer-events: none;
     }
 
-    /* ── Responsive ── */
     @media (max-width: 480px) {
-      body {
-        padding: 0;
-        align-items: flex-end;
-      }
-      .chat-shell {
-        max-width: 100%;
-        height: 100vh;
-        border-radius: 0;
-        border: none;
-      }
       .message-row {
         max-width: 88%;
       }
     }
   </style>
 </head>
+
 <body>
-  <div class="chat-shell">
-    <!-- Header -->
-    <div class="chat-header">
-      <div class="avatar">
-        <!-- Simple cross SVG -->
+  <!-- Header -->
+  <header class="top-header">
+    <div class="header-left">
+      <div class="cross-icon">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6.5v-1.5h-5v-3h-2v3h-5v1.5h5v5h-5v1.5h5v9h2v-9h5v-1.5h-5v-5z" fill="white"/>
+          <path d="M18 6.5v-1.5h-5v-3h-2v3h-5v1.5h5v5h-5v1.5h5v9h2v-9h5v-1.5h-5v-5z" fill="white" />
         </svg>
       </div>
-      <div class="header-info">
-        <h2>GraceBot</h2>
-        <span><span class="online-dot"></span>Here to help</span>
+      <div class="header-text">
+        <h1>FBC OVOM Marriage Guidelines</h1>
+        <span>Your step‑by‑step assistant</span>
       </div>
     </div>
 
-    <!-- Messages container -->
-    <div id="messages">
-      <!-- Date divider -->
+    <!-- Theme toggle button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+      <!-- Sun icon (visible in dark mode) -->
+      <svg id="sunIcon" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      <!-- Moon icon (visible in light mode) -->
+      <svg id="moonIcon" viewBox="0 0 24 24" style="display: none;">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+    </button>
+  </header>
+
+  <!-- Chat area -->
+  <main class="chat-container">
+    <div class="messages" id="messages">
       <div class="date-divider"><span>Today</span></div>
-      <!-- Initial greeting from AI -->
       <div class="message-row ai">
-        <span class="sender-label">GraceBot</span>
-        <div class="bubble">Peace be with you! How can I assist you today? 🙏</div>
+        <span class="sender-label">Guidelines Bot</span>
+        <div class="bubble">
+          Welcome! 🙏 I can walk you through the official <strong>FBC OVOM marriage steps</strong>.<br>How may I help
+          you?
+        </div>
         <span class="timestamp" id="initialTimestamp"></span>
       </div>
     </div>
 
-    <!-- Input area -->
     <div class="chat-footer">
       <div class="input-wrap">
-        <input
-          type="text"
-          id="userInput"
-          placeholder="Ask a question about faith, events, or prayer…"
-          autocomplete="off"
-        />
+        <input type="text" id="userInput" placeholder="Ask about marriage requirements, steps, or documents…"
+          autocomplete="off" />
       </div>
       <button id="sendBtn" aria-label="Send message">
-        <!-- Send icon (paper plane) -->
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
         </svg>
       </button>
     </div>
-  </div>
+  </main>
 
   <script>
-    (function() {
-      // ── DOM elements ──
-      const messagesEl = document.getElementById('messages');
-      const input = document.getElementById('userInput');
-      const sendBtn = document.getElementById('sendBtn');
-      const initialTimestamp = document.getElementById('initialTimestamp');
+    (function () {
+      (function () {
+        const messagesEl = document.getElementById('messages');
+        const input = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const initialTimestamp = document.getElementById('initialTimestamp');
 
-      // Set initial message time on load
-      initialTimestamp.textContent = getTimeNow();
+        // Conversation memory
+        const conversationHistory = [];
 
-      // ── Helper: current time formatted ──
-      function getTimeNow() {
-        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      }
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const sunIcon = document.getElementById('sunIcon');
+        const moonIcon = document.getElementById('moonIcon');
+        const html = document.documentElement;
 
-      // ── Add a message to the chat ──
-      function addMessage(text, sender) {
-        const row = document.createElement('div');
-        row.className = `message-row ${sender}`; // 'you' or 'ai'
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        updateIcons(savedTheme);
 
-        const label = document.createElement('span');
-        label.className = 'sender-label';
-        label.textContent = sender === 'you' ? 'You' : 'GraceBot';
+        themeToggle.addEventListener('click', () => {
+          const current = html.getAttribute('data-theme');
+          const next = current === 'light' ? 'dark' : 'light';
+          html.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+          updateIcons(next);
+        });
 
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        // support simple line breaks (if backend sends \n)
-        bubble.innerHTML = text.replace(/\n/g, '<br>');
-
-        const timeSpan = document.createElement('span');
-        timeSpan.className = 'timestamp';
-        timeSpan.textContent = getTimeNow();
-
-        row.appendChild(label);
-        row.appendChild(bubble);
-        row.appendChild(timeSpan);
-        messagesEl.appendChild(row);
-        scrollToBottom();
-      }
-
-      // ── Show typing indicator ──
-      function showTypingIndicator() {
-        const indicator = document.createElement('div');
-        indicator.className = 'message-row ai';
-        indicator.id = 'typingIndicator';
-
-        const label = document.createElement('span');
-        label.className = 'sender-label';
-        label.textContent = 'GraceBot';
-
-        const dots = document.createElement('div');
-        dots.className = 'typing-indicator';
-        dots.innerHTML = '<span></span><span></span><span></span>';
-
-        indicator.appendChild(label);
-        indicator.appendChild(dots);
-        messagesEl.appendChild(indicator);
-        scrollToBottom();
-      }
-
-      function removeTypingIndicator() {
-        const el = document.getElementById('typingIndicator');
-        if (el) el.remove();
-      }
-
-      // ── Scroll to latest message ──
-      function scrollToBottom() {
-        messagesEl.scrollTop = messagesEl.scrollHeight;
-      }
-
-      // ── Disable input while waiting for response ──
-      function setLoadingState(isLoading) {
-        input.disabled = isLoading;
-        sendBtn.disabled = isLoading;
-        if (!isLoading) input.focus();
-      }
-
-      // ── Send message to backend ──
-      async function sendMessage() {
-        const text = input.value.trim();
-        if (!text || input.disabled) return;
-
-        // Add user message
-        addMessage(text, 'you');
-        input.value = '';
-        setLoadingState(true);
-
-        // Show typing indicator
-        showTypingIndicator();
-
-        try {
-          // ============================================================
-          // 🔌 REPLACE THIS URL with your actual RAG backend endpoint
-          // Expects: POST { "message": "user text" }
-          // Returns: JSON { "reply": "AI answer" }
-          // ============================================================
-          const response = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: text }),
-          });
-
-          if (!response.ok) throw new Error(`Server error ${response.status}`);
-
-          const data = await response.json();
-          const aiReply = data.reply || data.response || 'I’m sorry, I didn’t catch that. Could you rephrase?';
-
-          // Remove typing indicator then show the real reply
-          removeTypingIndicator();
-          addMessage(aiReply, 'ai');
-        } catch (error) {
-          console.error('Chat error:', error);
-          removeTypingIndicator();
-          addMessage('I’m having trouble connecting right now. Please try again later. 🙏', 'ai');
-        } finally {
-          setLoadingState(false);
+        function updateIcons(theme) {
+          if (theme === 'dark') {
+            sunIcon.style.display = 'block';
+            moonIcon.style.display = 'none';
+          } else {
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'block';
+          }
         }
-      }
 
-      // ── Event listeners ──
-      sendBtn.addEventListener('click', sendMessage);
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
+        initialTimestamp.textContent = getTimeNow();
+
+        function getTimeNow() {
+          return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
-      });
 
-      // Auto-focus input on load
-      input.focus();
+        function formatResponse(text) {
+          let safe = text
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+          safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+          safe = safe.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+          const paragraphs = safe.split(/\n\n+/);
+          const formatted = paragraphs.map(para => {
+            const lines = para.split('\n');
+            const isUnordered = lines.every(line => /^[-*] .+/.test(line.trim()));
+            const isOrdered = lines.every(line => /^\d+\. .+/.test(line.trim()));
+
+            if (isUnordered) {
+              const items = lines.map(line => `<li>${line.replace(/^[-*] /, '')}</li>`).join('');
+              return `<ul>${items}</ul>`;
+            } else if (isOrdered) {
+              const items = lines.map(line => `<li>${line.replace(/^\d+\. /, '')}</li>`).join('');
+              return `<ol>${items}</ol>`;
+            } else {
+              return `<p>${lines.join('<br>')}</p>`;
+            }
+          }).join('');
+
+          return formatted;
+        }
+
+        function addMessage(text, sender) {
+          const row = document.createElement('div');
+          row.className = `message-row ${sender}`;
+
+          const label = document.createElement('span');
+          label.className = 'sender-label';
+          label.textContent = sender === 'you' ? 'You' : 'Guidelines Bot';
+
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+
+          if (sender === 'ai') {
+            bubble.innerHTML = formatResponse(text);
+          } else {
+            bubble.innerHTML = text.replace(/\n/g, '<br>');
+          }
+
+          const time = document.createElement('span');
+          time.className = 'timestamp';
+          time.textContent = getTimeNow();
+
+          row.appendChild(label);
+          row.appendChild(bubble);
+          row.appendChild(time);
+          messagesEl.appendChild(row);
+          scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+          const indicator = document.createElement('div');
+          indicator.className = 'message-row ai';
+          indicator.id = 'typingIndicator';
+
+          const label = document.createElement('span');
+          label.className = 'sender-label';
+          label.textContent = 'Guidelines Bot';
+
+          const dots = document.createElement('div');
+          dots.className = 'typing-indicator';
+          dots.innerHTML = '<span></span><span></span><span></span>';
+
+          indicator.appendChild(label);
+          indicator.appendChild(dots);
+          messagesEl.appendChild(indicator);
+          scrollToBottom();
+        }
+
+        function removeTypingIndicator() {
+          const el = document.getElementById('typingIndicator');
+          if (el) el.remove();
+        }
+
+        function scrollToBottom() {
+          messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        function setLoadingState(isLoading) {
+          input.disabled = isLoading;
+          sendBtn.disabled = isLoading;
+          if (!isLoading) input.focus();
+        }
+
+        async function sendMessage() {
+          const text = input.value.trim();
+          if (!text || input.disabled) return;
+
+          addMessage(text, 'you');
+          conversationHistory.push({ role: 'user_input', content: [{ type: "text", text: text }] });
+
+          input.value = '';
+          setLoadingState(true);
+          showTypingIndicator();
+
+          try {
+            console.log('Sending conversation history to server:', conversationHistory);
+            const response = await fetch('/api/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                message: text,
+                history: conversationHistory
+              }),
+            });
+
+            if (!response.ok) throw new Error(`Server error ${response.status}`);
+
+            const data = await response.json();
+            const aiReply = data.reply || data.response || 'I’m sorry, I could not retrieve that information.';
+console.log('Received reply from server:', aiReply);
+            conversationHistory.push({ role: 'model_output', content:  [{ type: "text", text: aiReply }]});
+
+
+
+            removeTypingIndicator();
+            addMessage(aiReply, 'ai');
+          } catch (error) {
+            console.error(error);
+            removeTypingIndicator();
+            addMessage('I’m having trouble connecting right now. Please try again later. 🙏', 'ai');
+          } finally {
+            setLoadingState(false);
+          }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+
+        input.focus();
+      })();
     })();
   </script>
 </body>
+
 </html>
