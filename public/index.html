@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>FBC OVOM – Marriage Guidelines</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,7 +12,9 @@
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
     rel="stylesheet" />
 
-  <style>
+    <link rel="shortcut icon" href="./logo1.jpg" type="image/x-icon">
+<link rel="apple-touch-icon" href="./logo1.jpg">
+<style>
     *,
     *::before,
     *::after {
@@ -61,81 +63,110 @@
       --shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     }
 
+    html {
+      /* Prevent tap highlight on mobile */
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text-primary);
+      /* Use dvh (dynamic viewport height) so mobile browser chrome is accounted for.
+         Falls back to 100vh for older browsers. */
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      /* Safe area insets for notched phones (iPhone, etc.) */
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
     }
 
+    /* ── Header ── */
     .top-header {
-      height: 64px;
+      /* Flexible height so it can shrink on small screens */
+      min-height: 56px;
+      height: auto;
+      padding: 10px 16px;
       background: var(--header-bg);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
       flex-shrink: 0;
-      gap: 16px;
+      gap: 12px;
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      min-width: 0; /* allows text truncation */
     }
 
     .cross-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
+      min-width: 34px; /* prevent shrinking */
       background: radial-gradient(circle at 30% 30%, #f7e3af, var(--gold-dark));
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: var(--shadow);
-      flex-shrink: 0;
     }
 
     .cross-icon svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: #fff;
+    }
+
+    .header-text {
+      min-width: 0; /* allows truncation inside flex */
     }
 
     .header-text h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
+      font-size: clamp(1rem, 4vw, 1.4rem); /* scales with screen */
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: 0.3px;
       line-height: 1.2;
+      /* Truncate if truly too long */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .header-text span {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-secondary);
       display: block;
       font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Theme toggle button */
+    /* Theme toggle */
     .theme-toggle {
       background: none;
       border: 1px solid var(--border);
       border-radius: 8px;
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       color: var(--text-primary);
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s;
     }
 
     .theme-toggle:hover {
@@ -143,8 +174,8 @@
     }
 
     .theme-toggle svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -152,30 +183,37 @@
       stroke-linejoin: round;
     }
 
+    /* ── Chat container ── */
     .chat-container {
       flex: 1;
       display: flex;
       flex-direction: column;
       background: var(--bg);
-      min-width: 0;
+      min-width: 50px;
       min-height: 0;
-      /* crucial for scrolling */
+      overflow: hidden;
+
+      max-width: 1024px;
+      margin: auto;
     }
 
+    /* ── Messages ── */
     .messages {
       flex: 1;
       overflow-y: auto;
-      padding: 24px 20px;
+      /* Momentum scrolling on iOS */
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
       scroll-behavior: smooth;
       min-height: 0;
-      /* crucial for scrolling */
     }
 
     .messages::-webkit-scrollbar {
-      width: 5px;
+      width: 4px;
     }
 
     .messages::-webkit-scrollbar-track {
@@ -191,7 +229,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin: 8px 0;
+      margin: 6px 0;
     }
 
     .date-divider::before,
@@ -203,7 +241,7 @@
     }
 
     .date-divider span {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -213,20 +251,13 @@
     .message-row {
       display: flex;
       flex-direction: column;
-      max-width: 75%;
-      animation: fadeUp 0.3s ease;
+      max-width: 80%;
+      animation: fadeUp 0.25s ease;
     }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
 
     .message-row.you {
@@ -240,10 +271,10 @@
     }
 
     .sender-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 500;
       color: var(--text-secondary);
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
@@ -253,106 +284,80 @@
     }
 
     .bubble {
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-size: 0.95rem;
+      padding: 9px 13px;
+      border-radius: 18px;
+      font-size: 0.9rem;
       line-height: 1.55;
       word-break: break-word;
     }
 
-    /* Styled content inside AI bubble */
-    .bubble p {
-      margin-bottom: 0.5rem;
-    }
-
+    .bubble p        { margin-bottom: 0.4rem; }
+    .bubble p:last-child { margin-bottom: 0; }
     .bubble ul,
-    .bubble ol {
-      margin: 0.5rem 0 0.5rem 1.2rem;
-    }
-
-    .bubble li {
-      margin-bottom: 0.2rem;
-    }
-
-    .bubble strong {
-      font-weight: 600;
-    }
-
-    .bubble em {
-      font-style: italic;
-      color: var(--accent);
-    }
+    .bubble ol       { margin: 0.4rem 0 0.4rem 1.1rem; }
+    .bubble li       { margin-bottom: 0.2rem; }
+    .bubble strong   { font-weight: 600; }
+    .bubble em       { font-style: italic; color: var(--accent); }
 
     .message-row.you .bubble {
       background: var(--you-bg);
       color: var(--text-primary);
-      border-bottom-right-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      border-bottom-right-radius: 6px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
     }
 
     .message-row.ai .bubble {
       background: var(--ai-bg);
       color: var(--text-primary);
       border: 1px solid var(--ai-border);
-      border-bottom-left-radius: 10px;
+      border-bottom-left-radius: 6px;
     }
 
     .timestamp {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--text-secondary);
-      margin-top: 4px;
-      padding: 0 4px;
+      margin-top: 3px;
+      padding: 0 3px;
     }
 
+    /* ── Typing indicator ── */
     .typing-indicator {
       display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
+      gap: 5px;
+      padding: 8px 13px;
       background: var(--ai-bg);
       border: 1px solid var(--ai-border);
-      border-radius: 20px;
-      border-bottom-left-radius: 10px;
+      border-radius: 18px;
+      border-bottom-left-radius: 6px;
       width: fit-content;
-      margin-top: 4px;
     }
 
     .typing-indicator span {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       background: var(--gold);
       border-radius: 50%;
       animation: bounce 1.2s infinite ease-in-out;
     }
 
-    .typing-indicator span:nth-child(2) {
-      animation-delay: 0.15s;
-    }
-
-    .typing-indicator span:nth-child(3) {
-      animation-delay: 0.3s;
-    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
 
     @keyframes bounce {
-
-      0%,
-      60%,
-      100% {
-        transform: translateY(0);
-      }
-
-      30% {
-        transform: translateY(-7px);
-      }
+      0%, 60%, 100% { transform: translateY(0); }
+      30%           { transform: translateY(-6px); }
     }
 
+    /* ── Footer / input ── */
     .chat-footer {
-      padding: 16px 20px;
+      padding: 10px 14px;
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       background: var(--surface);
+      flex-shrink: 0;
     }
 
     .input-wrap {
@@ -361,8 +366,8 @@
       align-items: center;
       background: var(--surface-alt);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 0 16px;
+      border-radius: 14px;
+      padding: 0 14px;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
@@ -378,8 +383,10 @@
       outline: none;
       font-family: 'Inter', sans-serif;
       font-size: 0.95rem;
+      /* 16px minimum prevents iOS auto-zoom on focus */
+      font-size: max(0.95rem, 16px);
       color: var(--text-primary);
-      padding: 12px 0;
+      padding: 11px 0;
       caret-color: var(--accent);
     }
 
@@ -389,9 +396,10 @@
     }
 
     #sendBtn {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 12px;
       background: var(--send-bg);
       border: none;
       cursor: pointer;
@@ -399,32 +407,52 @@
       align-items: center;
       justify-content: center;
       transition: background 0.2s, transform 0.1s;
-      flex-shrink: 0;
     }
 
-    #sendBtn:hover {
-      background: var(--send-hover);
-    }
-
-    #sendBtn:active {
-      transform: scale(0.93);
-    }
+    #sendBtn:hover  { background: var(--send-hover); }
+    #sendBtn:active { transform: scale(0.92); }
 
     #sendBtn svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       fill: #fff;
     }
 
     #sendBtn:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       pointer-events: none;
     }
 
+    /* ── Mobile-specific ── */
     @media (max-width: 480px) {
       .message-row {
-        max-width: 88%;
+        max-width: 90%;
       }
+
+      /* On very small phones, abbreviate the subtitle */
+      .header-text span {
+        display: none;
+      }
+    }
+
+    /* Landscape phone */
+    @media (max-height: 420px) {
+      .top-header {
+        min-height: 44px;
+        padding: 6px 12px;
+      }
+
+      .cross-icon {
+        width: 28px;
+        height: 28px;
+        min-width: 28px;
+      }
+
+      .header-text h1 { font-size: 0.95rem; }
+      .header-text span { display: none; }
+
+      .messages { padding: 8px 12px; gap: 6px; }
+      .chat-footer { padding: 6px 12px; }
     }
   </style>
 </head>
@@ -434,9 +462,8 @@
   <header class="top-header">
     <div class="header-left">
       <div class="cross-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 6.5v-1.5h-5v-3h-2v3h-5v1.5h5v5h-5v1.5h5v9h2v-9h5v-1.5h-5v-5z" fill="white" />
-        </svg>
+        
+        <img class="cross-icon" srcset="./logo1.jpg" src="../logo1.jpg" alt="../logo1.jpg">
       </div>
       <div class="header-text">
         <h1>FBC OVOM Marriage Guidelines</h1>
@@ -444,9 +471,7 @@
       </div>
     </div>
 
-    <!-- Theme toggle button -->
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
-      <!-- Sun icon (visible in dark mode) -->
       <svg id="sunIcon" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="5" />
         <line x1="12" y1="1" x2="12" y2="3" />
@@ -458,8 +483,7 @@
         <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
       </svg>
-      <!-- Moon icon (visible in light mode) -->
-      <svg id="moonIcon" viewBox="0 0 24 24" style="display: none;">
+      <svg id="moonIcon" viewBox="0 0 24 24" style="display:none;">
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>
     </button>
@@ -472,8 +496,7 @@
       <div class="message-row ai">
         <span class="sender-label">Guidelines Bot</span>
         <div class="bubble">
-          Welcome! 🙏 I can walk you through the official <strong>FBC OVOM marriage steps</strong>.<br>How may I help
-          you?
+          Welcome! 🙏 I can walk you through the official <strong>FBC OVOM marriage steps</strong>.<br>How may I help you?
         </div>
         <span class="timestamp" id="initialTimestamp"></span>
       </div>
@@ -481,8 +504,7 @@
 
     <div class="chat-footer">
       <div class="input-wrap">
-        <input type="text" id="userInput" placeholder="Ask about marriage requirements, steps, or documents…"
-          autocomplete="off" />
+        <input type="text" id="userInput" placeholder="Ask about requirements, steps, or documents…" autocomplete="off" />
       </div>
       <button id="sendBtn" aria-label="Send message">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -494,192 +516,166 @@
 
   <script>
     (function () {
-      (function () {
-        const messagesEl = document.getElementById('messages');
-        const input = document.getElementById('userInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const initialTimestamp = document.getElementById('initialTimestamp');
+      const messagesEl   = document.getElementById('messages');
+      const input        = document.getElementById('userInput');
+      const sendBtn      = document.getElementById('sendBtn');
+      const initialTs    = document.getElementById('initialTimestamp');
+      const themeToggle  = document.getElementById('themeToggle');
+      const sunIcon      = document.getElementById('sunIcon');
+      const moonIcon     = document.getElementById('moonIcon');
+      const html         = document.documentElement;
 
-        // Conversation memory
-        const conversationHistory = [];
+      const conversationHistory = [];
 
-        // Theme toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
-        const html = document.documentElement;
+      /* ── Theme ── */
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      html.setAttribute('data-theme', savedTheme);
+      applyIcons(savedTheme);
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        html.setAttribute('data-theme', savedTheme);
-        updateIcons(savedTheme);
+      themeToggle.addEventListener('click', () => {
+        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        applyIcons(next);
+      });
 
-        themeToggle.addEventListener('click', () => {
-          const current = html.getAttribute('data-theme');
-          const next = current === 'light' ? 'dark' : 'light';
-          html.setAttribute('data-theme', next);
-          localStorage.setItem('theme', next);
-          updateIcons(next);
-        });
+      function applyIcons(theme) {
+        sunIcon.style.display  = theme === 'dark' ? 'block' : 'none';
+        moonIcon.style.display = theme === 'dark' ? 'none'  : 'block';
+      }
 
-        function updateIcons(theme) {
-          if (theme === 'dark') {
-            sunIcon.style.display = 'block';
-            moonIcon.style.display = 'none';
-          } else {
-            sunIcon.style.display = 'none';
-            moonIcon.style.display = 'block';
+      initialTs.textContent = getTimeNow();
+
+      function getTimeNow() {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+
+      /* ── Markdown-lite formatter ── */
+      function formatResponse(text) {
+        let safe = text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        safe = safe.replace(/\*(.+?)\*/g,     '<em>$1</em>');
+
+        return safe.split(/\n\n+/).map(para => {
+          const lines = para.split('\n');
+          if (lines.every(l => /^[-*] .+/.test(l.trim()))) {
+            return `<ul>${lines.map(l => `<li>${l.replace(/^[-*] /, '')}</li>`).join('')}</ul>`;
           }
-        }
-
-        initialTimestamp.textContent = getTimeNow();
-
-        function getTimeNow() {
-          return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function formatResponse(text) {
-          let safe = text
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-
-          safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-          safe = safe.replace(/\*(.+?)\*/g, '<em>$1</em>');
-
-          const paragraphs = safe.split(/\n\n+/);
-          const formatted = paragraphs.map(para => {
-            const lines = para.split('\n');
-            const isUnordered = lines.every(line => /^[-*] .+/.test(line.trim()));
-            const isOrdered = lines.every(line => /^\d+\. .+/.test(line.trim()));
-
-            if (isUnordered) {
-              const items = lines.map(line => `<li>${line.replace(/^[-*] /, '')}</li>`).join('');
-              return `<ul>${items}</ul>`;
-            } else if (isOrdered) {
-              const items = lines.map(line => `<li>${line.replace(/^\d+\. /, '')}</li>`).join('');
-              return `<ol>${items}</ol>`;
-            } else {
-              return `<p>${lines.join('<br>')}</p>`;
-            }
-          }).join('');
-
-          return formatted;
-        }
-
-        function addMessage(text, sender) {
-          const row = document.createElement('div');
-          row.className = `message-row ${sender}`;
-
-          const label = document.createElement('span');
-          label.className = 'sender-label';
-          label.textContent = sender === 'you' ? 'You' : 'Guidelines Bot';
-
-          const bubble = document.createElement('div');
-          bubble.className = 'bubble';
-
-          if (sender === 'ai') {
-            bubble.innerHTML = formatResponse(text);
-          } else {
-            bubble.innerHTML = text.replace(/\n/g, '<br>');
+          if (lines.every(l => /^\d+\. .+/.test(l.trim()))) {
+            return `<ol>${lines.map(l => `<li>${l.replace(/^\d+\. /, '')}</li>`).join('')}</ol>`;
           }
+          return `<p>${lines.join('<br>')}</p>`;
+        }).join('');
+      }
 
-          const time = document.createElement('span');
-          time.className = 'timestamp';
-          time.textContent = getTimeNow();
+      /* ── Message helpers ── */
+      function addMessage(text, sender) {
+        const row    = document.createElement('div');
+        row.className = `message-row ${sender}`;
 
-          row.appendChild(label);
-          row.appendChild(bubble);
-          row.appendChild(time);
-          messagesEl.appendChild(row);
-          scrollToBottom();
+        const label  = document.createElement('span');
+        label.className = 'sender-label';
+        label.textContent = sender === 'you' ? 'You' : 'Guidelines Bot';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.innerHTML = sender === 'ai'
+          ? formatResponse(text)
+          : text.replace(/\n/g, '<br>');
+
+        const time   = document.createElement('span');
+        time.className = 'timestamp';
+        time.textContent = getTimeNow();
+
+        row.appendChild(label);
+        row.appendChild(bubble);
+        row.appendChild(time);
+        messagesEl.appendChild(row);
+        scrollToBottom();
+      }
+
+      function showTypingIndicator() {
+        const indicator = document.createElement('div');
+        indicator.className = 'message-row ai';
+        indicator.id = 'typingIndicator';
+
+        const label = document.createElement('span');
+        label.className = 'sender-label';
+        label.textContent = 'Guidelines Bot';
+
+        const dots = document.createElement('div');
+        dots.className = 'typing-indicator';
+        dots.innerHTML = '<span></span><span></span><span></span>';
+
+        indicator.appendChild(label);
+        indicator.appendChild(dots);
+        messagesEl.appendChild(indicator);
+        scrollToBottom();
+      }
+
+      function removeTypingIndicator() {
+        const el = document.getElementById('typingIndicator');
+        if (el) el.remove();
+      }
+
+      function scrollToBottom() {
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      }
+
+      function setLoadingState(loading) {
+        input.disabled   = loading;
+        sendBtn.disabled = loading;
+        if (!loading) input.focus();
+      }
+
+      /* ── Send ── */
+      async function sendMessage() {
+        const text = input.value.trim();
+        if (!text || input.disabled) return;
+
+        addMessage(text, 'you');
+        conversationHistory.push({ role: 'user_input', content: [{ type: 'text', text }] });
+        input.value = '';
+        setLoadingState(true);
+        showTypingIndicator();
+
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text, history: conversationHistory }),
+          });
+
+          if (!response.ok) throw new Error(`Server error ${response.status}`);
+
+          const data    = await response.json();
+          const aiReply = data.reply || data.response || 'I\u2019m sorry, I could not retrieve that information.';
+          conversationHistory.push({ role: 'model_output', content: [{ type: 'text', text: aiReply }] });
+
+          removeTypingIndicator();
+          addMessage(aiReply, 'ai');
+        } catch (err) {
+          console.error(err);
+          removeTypingIndicator();
+          addMessage('I\u2019m having trouble connecting right now. Please try again later. 🙏', 'ai');
+        } finally {
+          setLoadingState(false);
         }
+      }
 
-        function showTypingIndicator() {
-          const indicator = document.createElement('div');
-          indicator.className = 'message-row ai';
-          indicator.id = 'typingIndicator';
-
-          const label = document.createElement('span');
-          label.className = 'sender-label';
-          label.textContent = 'Guidelines Bot';
-
-          const dots = document.createElement('div');
-          dots.className = 'typing-indicator';
-          dots.innerHTML = '<span></span><span></span><span></span>';
-
-          indicator.appendChild(label);
-          indicator.appendChild(dots);
-          messagesEl.appendChild(indicator);
-          scrollToBottom();
+      sendBtn.addEventListener('click', sendMessage);
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
         }
+      });
 
-        function removeTypingIndicator() {
-          const el = document.getElementById('typingIndicator');
-          if (el) el.remove();
-        }
-
-        function scrollToBottom() {
-          messagesEl.scrollTop = messagesEl.scrollHeight;
-        }
-
-        function setLoadingState(isLoading) {
-          input.disabled = isLoading;
-          sendBtn.disabled = isLoading;
-          if (!isLoading) input.focus();
-        }
-
-        async function sendMessage() {
-          const text = input.value.trim();
-          if (!text || input.disabled) return;
-
-          addMessage(text, 'you');
-          conversationHistory.push({ role: 'user_input', content: [{ type: "text", text: text }] });
-
-          input.value = '';
-          setLoadingState(true);
-          showTypingIndicator();
-
-          try {
-            console.log('Sending conversation history to server:', conversationHistory);
-            const response = await fetch('/api/chat', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                message: text,
-                history: conversationHistory
-              }),
-            });
-
-            if (!response.ok) throw new Error(`Server error ${response.status}`);
-
-            const data = await response.json();
-            const aiReply = data.reply || data.response || 'I’m sorry, I could not retrieve that information.';
-console.log('Received reply from server:', aiReply);
-            conversationHistory.push({ role: 'model_output', content:  [{ type: "text", text: aiReply }]});
-
-
-
-            removeTypingIndicator();
-            addMessage(aiReply, 'ai');
-          } catch (error) {
-            console.error(error);
-            removeTypingIndicator();
-            addMessage('I’m having trouble connecting right now. Please try again later. 🙏', 'ai');
-          } finally {
-            setLoadingState(false);
-          }
-        }
-
-        sendBtn.addEventListener('click', sendMessage);
-        input.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-          }
-        });
-
-        input.focus();
-      })();
+      input.focus();
     })();
   </script>
 </body>
