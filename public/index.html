@@ -682,6 +682,7 @@
   </main>
 
   <script>
+
     (function () {
       const messagesEl = document.getElementById('messages');
       const input = document.getElementById('userInput');
@@ -692,7 +693,17 @@
       const moonIcon = document.getElementById('moonIcon');
       const html = document.documentElement;
 
+      localStorage.clear()
+
+      //get history from local storage if it exists, otherwise start with an empty array/
       const conversationHistory = [];
+      if (localStorage.getItem('conversationHistory')) {
+        conversationHistory.push(...JSON.parse(localStorage.getItem('conversationHistory')));
+      }
+
+
+      console.log("Conversation History on Load:", conversationHistory);
+
 
       /* ── Theme ── */
       const savedTheme = localStorage.getItem('theme') || 'light';
@@ -804,8 +815,18 @@
         const text = input.value.trim();
         if (!text || input.disabled) return;
 
+        const message = {
+          "type": 'user_input',
+          "content": [{ "type": 'text', "text": text }]
+        };
         addMessage(text, 'you');
-        conversationHistory.push({ role: 'user_input', content: [{ type: 'text', text }] });
+
+        //add to history in memory and local storage so we can send it to the server with the next message. We want to maintain the conversation history so that the AI has context for the conversation, which allows for more coherent and relevant responses. The history is stored as an array of message objects, where each object has a role (user_input or model_output) and content (the text of the message). We push the new user message to the history array, and then save the updated history to local storage so that it persists across page reloads.
+        conversationHistory.push(message);
+        localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
+
+        console.log("Updated Conversation History:", conversationHistory);
+
         input.value = '';
         setLoadingState(true);
         showTypingIndicator();
@@ -814,20 +835,27 @@
           const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: text, history: conversationHistory }),
+            body: JSON.stringify({ message: conversationHistory, history: conversationHistory }),
           });
 
           if (!response.ok) throw new Error(`Server error ${response.status}`);
 
           const data = await response.json();
-          const aiReply = data.reply || data.response || 'I\u2019m sorry, I could not retrieve that information.';
-          conversationHistory.push({ role: 'model_output', content: [{ type: 'text', text: aiReply }] });
+          if (!data.reply) throw new Error('No reply from server');
+          const aiReply = data.reply;
+
+
+          conversationHistory.push(aiReply.aichat);
+          console.log(conversationHistory);
+
+          localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory));
 
           removeTypingIndicator();
-          addMessage(aiReply, 'ai');
+          addMessage(aiReply.response, 'ai');
         } catch (err) {
           console.error(err);
           removeTypingIndicator();
+          //Remove previous 
           addMessage('I\u2019m having trouble connecting right now. Please try again later. 🙏', 'ai');
         } finally {
           setLoadingState(false);
@@ -844,6 +872,7 @@
 
       input.focus();
     })();
+
   </script>
 </body>
 
