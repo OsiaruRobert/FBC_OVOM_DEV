@@ -2,19 +2,126 @@
 <html lang="en" data-theme="light">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>FBC OVOM – Marriage Guidelines</title>
 
+
+
+
+  <!-- ============================================================
+       CORE META
+       Charset first (must appear within first 1024 bytes).
+       Viewport ensures correct scaling on all mobile devices.
+       X-UA-Compatible tells older IE to use its best engine.
+       ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- ============================================================
+       SEO META
+       Title, description, and keywords for search engine indexing.
+       The `robots` tag tells crawlers to index and follow links.
+       ============================================================ -->
+  <title>FBC OVOM – Marriage Guidelines Bot</title>
+  <meta name="description" content="FBC OVOM – Marriage Guidelines Bot" />
+  <meta name="keywords" content="FBC OVOM, marriage guidelines bot, chatbot, fbc ovom, marriage guide" />
+  <meta name="author" content="FBC OVOM" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- ============================================================
+       OPEN GRAPH
+       Controls how the page previews when shared on Facebook,
+       WhatsApp, LinkedIn, and any OG-aware platform.
+       ============================================================ -->
+  <meta property="og:title" content="FBC OVOM – Marriage Guidelines Bot" />
+  <meta property="og:description" content="FBC OVOM – Marriage Guidelines Bot" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fbcovommarriageguide.vercel.app" />
+  <meta property="og:image" content="https://fbcovommarriageguide.vercel.app/logo1.png" />
+  <meta property="og:site_name" content="FBC OVOM Marriage Guidelines chatbot" />
+
+  <!-- ============================================================
+       TWITTER CARD
+       Controls the large card preview shown when a tweet links
+       to this page.
+       ============================================================ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@fbcovom" />
+  <meta name="twitter:creator" content="@fbcovom" />
+  <meta name="twitter:title" content="FBC OVOM – Marriage Guidelines Bot" />
+  <meta name="twitter:description" content="FBC OVOM – Marriage Guidelines Bot " />
+  <meta name="twitter:image" content="https://fbcovommarriageguide.vercel.app/logo1.png" />
+
+  <!-- ============================================================
+       MISC META
+       theme-color tints the browser chrome on Android/Chrome.
+       canonical prevents duplicate-content SEO penalties.
+       format-detection stops iOS auto-linking plain numbers as phone calls.
+       ============================================================ -->
+  <meta name="theme-color" content="#fcf9f2" />
+  <meta name="msapplication-TileColor" content="#fcf9f2" />
+  <link rel="canonical" href="https://fbcovommarriageguide.vercel.app" />
+  <meta name="format-detection" content="telephone=no" />
+
+  <!-- ============================================================
+       FAVICON & APP ICONS
+       Covers standard browser tabs, iOS home-screen, and
+       Windows tile pinning.
+       ============================================================ -->
+  <link rel="icon" href="https://fbcovommarriageguide.vercel.app/img/icon.png" type="image/x-icon" />
+  <link rel="shortcut icon" href="https://fbcovommarriageguide.vercel.app/img/icon.png" type="image/x-icon" />
+  <link rel="apple-touch-icon" href="https://fbcovommarriageguide.vercel.app/img/icon.png" />
+
+  <!-- ============================================================
+       PWA / MOBILE APP META
+       Enables the site to be added to an iOS home screen and
+       behave like a native app (full-screen, custom title, etc.)
+       ============================================================ -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="FBC OVOM Marriage Guidelines" />
+
+  <!-- ============================================================
+       STRUCTURED DATA (JSON-LD)
+       Tells Google the site's name, URL, and that it supports
+       a SearchAction — enabling a search box in Google results.
+       ============================================================ -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FBC OVOM Marriage Guidelines",
+      "url": "https://fbcovommarriageguide.vercel.app",
+      "description": "FBC OVOM Marriage Guidelines chatbot",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://fbcovommarriageguide.vercel.app/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+
+
+  <!-- ============================================================
+       TYPOGRAPHY
+       Bricolage Grotesque: a bold, editorial display font for
+       headings — gives a premium, modern editorial feel.
+       Nunito: friendly, rounded sans-serif for body text —
+       highly legible at small sizes on mobile.
+       preconnect hints reduce DNS/TLS latency for font fetching.
+       ============================================================ -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500&display=swap"
     rel="stylesheet" />
 
-    <link rel="shortcut icon" href="./logo1.jpg" type="image/x-icon">
-<link rel="apple-touch-icon" href="./logo1.jpg">
-<style>
+  <link rel="shortcut icon" href="https://fbcovommarriageguide.vercel.app/logo1.png" type="image/x-icon">
+  <link rel="apple-touch-icon" href="https://fbcovommarriageguide.vercel.app/logo1.png">
+  <style>
     *,
     *::before,
     *::after {
@@ -105,13 +212,15 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 0; /* allows text truncation */
+      min-width: 0;
+      /* allows text truncation */
     }
 
     .cross-icon {
       width: 34px;
       height: 34px;
-      min-width: 34px; /* prevent shrinking */
+      min-width: 34px;
+      /* prevent shrinking */
       background: radial-gradient(circle at 30% 30%, #f7e3af, var(--gold-dark));
       border-radius: 50%;
       display: flex;
@@ -127,12 +236,14 @@
     }
 
     .header-text {
-      min-width: 0; /* allows truncation inside flex */
+      min-width: 0;
+      /* allows truncation inside flex */
     }
 
     .header-text h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 4vw, 1.4rem); /* scales with screen */
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      /* scales with screen */
       font-weight: 700;
       color: var(--text-primary);
       letter-spacing: 0.3px;
@@ -256,8 +367,15 @@
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .message-row.you {
@@ -291,19 +409,37 @@
       word-break: break-word;
     }
 
-    .bubble p        { margin-bottom: 0.4rem; }
-    .bubble p:last-child { margin-bottom: 0; }
+    .bubble p {
+      margin-bottom: 0.4rem;
+    }
+
+    .bubble p:last-child {
+      margin-bottom: 0;
+    }
+
     .bubble ul,
-    .bubble ol       { margin: 0.4rem 0 0.4rem 1.1rem; }
-    .bubble li       { margin-bottom: 0.2rem; }
-    .bubble strong   { font-weight: 600; }
-    .bubble em       { font-style: italic; color: var(--accent); }
+    .bubble ol {
+      margin: 0.4rem 0 0.4rem 1.1rem;
+    }
+
+    .bubble li {
+      margin-bottom: 0.2rem;
+    }
+
+    .bubble strong {
+      font-weight: 600;
+    }
+
+    .bubble em {
+      font-style: italic;
+      color: var(--accent);
+    }
 
     .message-row.you .bubble {
       background: var(--you-bg);
       color: var(--text-primary);
       border-bottom-right-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     }
 
     .message-row.ai .bubble {
@@ -341,12 +477,25 @@
       animation: bounce 1.2s infinite ease-in-out;
     }
 
-    .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
-    .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.3s;
+    }
 
     @keyframes bounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30%           { transform: translateY(-6px); }
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-6px);
+      }
     }
 
     /* ── Footer / input ── */
@@ -409,8 +558,13 @@
       transition: background 0.2s, transform 0.1s;
     }
 
-    #sendBtn:hover  { background: var(--send-hover); }
-    #sendBtn:active { transform: scale(0.92); }
+    #sendBtn:hover {
+      background: var(--send-hover);
+    }
+
+    #sendBtn:active {
+      transform: scale(0.92);
+    }
 
     #sendBtn svg {
       width: 18px;
@@ -448,11 +602,22 @@
         min-width: 28px;
       }
 
-      .header-text h1 { font-size: 0.95rem; }
-      .header-text span { display: none; }
+      .header-text h1 {
+        font-size: 0.95rem;
+      }
 
-      .messages { padding: 8px 12px; gap: 6px; }
-      .chat-footer { padding: 6px 12px; }
+      .header-text span {
+        display: none;
+      }
+
+      .messages {
+        padding: 8px 12px;
+        gap: 6px;
+      }
+
+      .chat-footer {
+        padding: 6px 12px;
+      }
     }
   </style>
 </head>
@@ -462,7 +627,7 @@
   <header class="top-header">
     <div class="header-left">
       <div class="cross-icon">
-        
+
         <img class="cross-icon" srcset="./logo1.jpg" src="../logo1.jpg" alt="../logo1.jpg">
       </div>
       <div class="header-text">
@@ -496,7 +661,8 @@
       <div class="message-row ai">
         <span class="sender-label">Guidelines Bot</span>
         <div class="bubble">
-          Welcome! 🙏 I can walk you through the official <strong>FBC OVOM marriage steps</strong>.<br>How may I help you?
+          Welcome! 🙏 I can walk you through the official <strong>FBC OVOM marriage steps</strong>.<br>How may I help
+          you?
         </div>
         <span class="timestamp" id="initialTimestamp"></span>
       </div>
@@ -504,7 +670,8 @@
 
     <div class="chat-footer">
       <div class="input-wrap">
-        <input type="text" id="userInput" placeholder="Ask about requirements, steps, or documents…" autocomplete="off" />
+        <input type="text" id="userInput" placeholder="Ask about requirements, steps, or documents…"
+          autocomplete="off" />
       </div>
       <button id="sendBtn" aria-label="Send message">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -516,14 +683,14 @@
 
   <script>
     (function () {
-      const messagesEl   = document.getElementById('messages');
-      const input        = document.getElementById('userInput');
-      const sendBtn      = document.getElementById('sendBtn');
-      const initialTs    = document.getElementById('initialTimestamp');
-      const themeToggle  = document.getElementById('themeToggle');
-      const sunIcon      = document.getElementById('sunIcon');
-      const moonIcon     = document.getElementById('moonIcon');
-      const html         = document.documentElement;
+      const messagesEl = document.getElementById('messages');
+      const input = document.getElementById('userInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const initialTs = document.getElementById('initialTimestamp');
+      const themeToggle = document.getElementById('themeToggle');
+      const sunIcon = document.getElementById('sunIcon');
+      const moonIcon = document.getElementById('moonIcon');
+      const html = document.documentElement;
 
       const conversationHistory = [];
 
@@ -540,8 +707,8 @@
       });
 
       function applyIcons(theme) {
-        sunIcon.style.display  = theme === 'dark' ? 'block' : 'none';
-        moonIcon.style.display = theme === 'dark' ? 'none'  : 'block';
+        sunIcon.style.display = theme === 'dark' ? 'block' : 'none';
+        moonIcon.style.display = theme === 'dark' ? 'none' : 'block';
       }
 
       initialTs.textContent = getTimeNow();
@@ -558,7 +725,7 @@
           .replace(/>/g, '&gt;');
 
         safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-        safe = safe.replace(/\*(.+?)\*/g,     '<em>$1</em>');
+        safe = safe.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
         return safe.split(/\n\n+/).map(para => {
           const lines = para.split('\n');
@@ -574,10 +741,10 @@
 
       /* ── Message helpers ── */
       function addMessage(text, sender) {
-        const row    = document.createElement('div');
+        const row = document.createElement('div');
         row.className = `message-row ${sender}`;
 
-        const label  = document.createElement('span');
+        const label = document.createElement('span');
         label.className = 'sender-label';
         label.textContent = sender === 'you' ? 'You' : 'Guidelines Bot';
 
@@ -587,7 +754,7 @@
           ? formatResponse(text)
           : text.replace(/\n/g, '<br>');
 
-        const time   = document.createElement('span');
+        const time = document.createElement('span');
         time.className = 'timestamp';
         time.textContent = getTimeNow();
 
@@ -627,7 +794,7 @@
       }
 
       function setLoadingState(loading) {
-        input.disabled   = loading;
+        input.disabled = loading;
         sendBtn.disabled = loading;
         if (!loading) input.focus();
       }
@@ -652,7 +819,7 @@
 
           if (!response.ok) throw new Error(`Server error ${response.status}`);
 
-          const data    = await response.json();
+          const data = await response.json();
           const aiReply = data.reply || data.response || 'I\u2019m sorry, I could not retrieve that information.';
           conversationHistory.push({ role: 'model_output', content: [{ type: 'text', text: aiReply }] });
 
