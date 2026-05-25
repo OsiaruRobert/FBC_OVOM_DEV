@@ -41,10 +41,10 @@ async function responder(message) {
 
     //The interactions API is more powerful and flexible than the generateContent API, and is the recommended way to have a conversation with Gemini. It allows you to maintain a history of the conversation, and to use tools like file search in a more natural way.     
     const interaction = await ai.interactions.create({
-        model: "gemini-3.5-flash",
+        model: "gemini-2.5-flash",
         input: message,
         store: false,
-        system_instruction: "Strictly follow the standard from the guide in that file. Keep your final answer as short,straight forward and clear as possible, One line is okay (Like around 10 words..)",
+        system_instruction: "Strictly follow the standard from the guide in that file You have access to a file Search tool.",
         tools: [{
             type: "file_search",
             file_search_store_names: [process.env.FBC_STORE]
